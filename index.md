@@ -1,6 +1,6 @@
 ---
-layout: default
-title: "New Media Design & Development"
+layout  : default
+title   : "New Media Design & Development I"
 ---
 
 SLA
