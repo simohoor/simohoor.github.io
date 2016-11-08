@@ -10,7 +10,7 @@ port        : 4000
 # ---
 title      : &title NMDAD-I
 description: "New Media Design & Development I at Artevelde University College Ghent"
-author     : Philippe De Pauw - Waterschoot
+author     : Simon Hoornaert
 tracking_id: "UA-79628300-1"
 # url        :
 # image      :

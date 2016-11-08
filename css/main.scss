@@ -5,5 +5,19 @@
 
 // 1. Configuartion and helpers
 @import 
-    'abstracts/variables';
+    'abstracts/variables',
+    'abstracts/mixins',
+    'abstracts/functions',
+    'base/base',
+    'base/fonts',
+    'base/helpers',
+    'base/typography';
+    @import url('https://fonts.googleapis.com/css?family=Shrikhand');
+    h1{
+        background: $text-color;
+        color: $brand-color;
+        font-family:$text-font-stack;
+        text-align: center;
+    }
+
 
