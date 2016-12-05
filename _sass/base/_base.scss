@@ -31,3 +31,105 @@ a {
     text-decoration: underline;
   }
 }
+
+body,h1,h2 {
+	padding: 0;
+	margin: 0;
+}
+
+a {
+	color: #000;
+}
+
+h3 {
+	margin: 15px 0;
+}
+
+hr {
+	border: 1px solid white;
+	margin: 60px 0;
+}
+
+img {
+	max-width: 100%;
+	height: auto;
+}
+
+div.container,
+div.small-container {
+	margin: 0 auto;
+	padding: 0 20px;
+}
+
+div.container {
+	max-width: 940px;
+}
+
+div.small-container {
+	max-width: 700px;
+}
+
+a.active {
+  font-weight: bold;
+  opacity: 1;
+}
+
+div.content {
+	background: white;
+}
+
+a.title {
+  opacity: 1;
+}
+
+.login-info {
+  margin-bottom: 25px;
+}
+
+.info-map{
+  color:$dark-grey;
+}
+.columns:after {
+	content: "";
+	display: table;
+	clear: both;
+}
+
+.spacing {
+	padding: 50px 0;
+}
+
+.column {
+	box-sizing: border-box;
+	float: left;
+}
+
+.column.third {
+	width: 33%;
+	padding: 0 20px;
+}
+
+.column.half {
+	width: 50%;
+	padding-left: 20px;
+	padding-right: 20px;
+}
+
+.map{
+  width: 100%;
+  height: 70vh;
+  display: block; 
+}
+.mapcontainer{
+  width: 95%;
+  height: 95%;
+  margin: auto;
+  display: block;
+}
+
+// Media Querries
+@media (max-width: 640px){
+  .column.half, .column.half a img {
+	  width: 100%;
+  }  
+}

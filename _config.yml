@@ -8,9 +8,9 @@ port        : 4000
 
 # SEO
 # ---
-title      : &title NMDAD-I
+title      : &title What To Do
 description: "New Media Design & Development I at Artevelde University College Ghent"
-author     : Simon Hoornaert
+author     : Simon H. - Lode M.
 tracking_id: "UA-79628300-1"
 # url        :
 # image      :

@@ -2,6 +2,170 @@
  * Basic typography style for copy text
  */
 body {
-  color: $text-color;
-  font: normal 125% / 1.4 $text-font-stack;
+	font-size: 20px;
+}
+
+h1 {
+	font-weight: normal;
+}
+
+h2 {
+	font-size: 40px;
+	text-align: center;
+}
+
+h3 {
+	font-size: 1.8em;
+}
+
+p {
+	line-height: 1.6em;
+}
+
+label {
+  font-weight: bold;
+  font-size: 24px;
+}
+aside {
+  text-align: center;
+}
+aside .sun {
+  font-size: 100px;
+}
+
+.weather-title {
+  font-size:38px;
+}
+.login-info {
+  text-align: center;
+}
+.now_temp, .now_wind-speed {
+  font-size: 30px;
+}
+
+.front-title {
+  color:$blue;
+  font-size:45px;
+  font-weight: bold;
+}
+.info-map {
+  font-size: 14px;
+  line-height: 2.5em;
+  text-align: center;
+}
+a.active {
+  font-weight: bold;
+}
+
+p.sub-text {
+	font-size: 20px;
+	text-align: center;
+	line-height: 28px;
+  
+}
+
+.column.third {
+	text-align: center;
+}
+
+textarea,
+input[type="text"] {
+	font-size: 18px;
+}
+
+input[type="submit"] {
+	font-size: 20px;
+}
+
+textarea {
+	line-height: 1.5em;
+}
+
+.side-menu {
+  font-size:34px;
+  font-weight: bold;
+}
+
+.sidenav .closebtn {
+    font-size: 36px;
+}
+
+.sidenav a {
+    text-decoration: none;
+    font-size: 25px;
+}
+
+
+// Footer
+footer a {
+  text-decoration: none;
+}
+
+footer h2{
+  font-size:30px;
+}
+footer .txtBlock {
+  line-height: 30px;
+}
+
+
+// Media Querries
+@media (max-width: 1470px){
+  aside{
+    text-align: center;
+  }
+
+  .weather-title {
+    font-family: titel;
+    font-size:30px;
+  }
+
+  .now_temp, .now_wind-speed {
+    font-size: 26px;
+  }
+}
+
+@media (max-width: 800px){
+  #footerContent h2 {
+    font-size: 30px;
+  }
+  
+  #footerContent {
+    font-size: 25px;
+  }
+}
+
+@media (max-width: 660px){  
+  .linksFooter {
+    font-size: 10px;
+  }
+}
+
+@media (max-width: 640px){
+  #footerContent h2 {
+    font-size: 25px;
+  }
+    
+  #footerContent {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 440px){
+  #footerContent h2 {
+    font-size: 24px;
+  }
+    
+  #footerContent {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 378px){
+  .column.half h3 {
+	  font-size: 27px;
+  } 
+  .column.half p {
+	  font-size: 16px;
+  } 
 }

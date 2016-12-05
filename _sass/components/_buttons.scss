@@ -1,0 +1,15 @@
+.button-contact {
+  background-color: $blue;
+  border: none;
+  color: white;
+  padding: 7px;
+  margin-top: 25px;
+  margin-bottom: 25px;
+  width: 140px;
+}
+
+@media (max-width: 640px){
+    .button-contact {
+        width: 100%;
+    }
+}

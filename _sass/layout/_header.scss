@@ -1,0 +1,31 @@
+header {
+	background: $blue;
+	color: #ffffff;
+  padding: 10px 0;
+}
+
+section.hero {
+	color: #fff;
+	background-image: url('/images/ghent1.jpg');
+    width:100%;
+	background-position: 0px -680px;
+    background-repeat: no-repeat;
+    padding: 120px 0;
+}
+
+header h1 a span {
+  display: inline-block;
+  transform: scaleX(-1); 
+}
+
+header a{
+  color: white;
+  opacity: 0.8;
+}
+
+header a,
+section.hero a {
+	text-decoration: none;
+	color: #ffffff;
+}
+

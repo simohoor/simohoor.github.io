@@ -1,0 +1,113 @@
+footer {
+    padding: 10px 0;
+    background-color: #232323;   
+    padding-top: 50px;
+    padding-bottom:100px; 
+    color:white;
+    height: 350px;
+}
+
+footer a {
+	text-decoration: none;
+	color: white;
+    display: block;
+}
+
+footer h2{
+  color: lightgray;
+}
+
+footer .txtBlock{
+  padding-left:50px;
+  padding-right: 50px;
+  float: left;
+  display: block;
+}
+
+.float-left{
+   float:left;
+   margin-right: 20px;
+ }
+
+#social {
+  width:110px;
+  margin:auto;
+}
+
+#footerContent{
+  width:1120px;
+  margin: auto;
+}
+
+// Media Querries
+@media (max-width: 1120px){
+  #footerContent{
+    width:800px;
+    display: block;
+    margin: auto;
+  }
+  
+  footer .txtBlock{
+    padding-left:20px;
+    padding-right: 20px;
+  }
+}
+
+@media (max-width: 800px){
+  footer{ 
+    height: 380px;
+  }
+  
+  #footerContent{
+    width:500px;
+    display: block;
+    margin: auto;
+  }
+  
+  footer .txtBlock:nth-of-type(1){
+    display: none;
+  }
+  
+  footer .txtBlock{
+    padding-left:30px;
+    padding-right: 30px;
+  }
+}
+
+@media (max-width: 700px){
+  footer{
+    margin-top:105px;
+  }
+}
+
+@media (max-width: 660px){  
+  .linksFooter{
+    width: 255px;
+  }
+}
+
+@media (max-width: 640px){ 
+  #footerContent{
+    width:350px;
+    display: block;
+    margin: auto;
+  }
+    
+  footer .txtBlock{
+    padding-left:15px;
+    padding-right: 15px;
+  }
+}
+
+@media (max-width: 440px){
+  #footerContent{
+    width:350px;
+    display: block;
+    margin: auto;
+  }
+    
+  footer .txtBlock{
+    padding-left:15px;
+    padding-right: 15px;
+  }
+}

@@ -32,3 +32,33 @@
   }
 }
 
+
+// Hovers 
+.main-nav a:hover, .title:hover {
+    text-decoration: none;
+    color: white;
+    opacity: 1;
+    transition: 0.3s
+}
+
+footer a:hover, .container a.link-frontpage:hover {
+  color: $blue;
+  text-decoration: none;
+  transition: 0.5s;
+}
+
+.button-contact:hover {
+  background-color: $dark-blue;
+  transition: 0.3s;
+}
+
+.sidenav a:hover, .offcanvas a:focus {
+    color: #f1f1f1;
+    transition: 0.3s
+}
+input:focus, textarea:focus{
+  outline: none;
+  background-color: $blue;
+  color:white;
+  transition: 0.3s; 
+}

@@ -52,6 +52,22 @@ var Utils = {
             }
         });
     },
+    getXMLByPromise: function(url) {   
+      return new Promise(function(resolve, reject){
+        var request = new XMLHttpRequest();
+        request.open("get", url, true);
+        request.onload = function(){
+            if (request.status == 200) {
+                    var data = request.responseXML;
+                    resolve(data);
+                } else {
+                    reject(status);
+                }
+        };
+        request.send();  
+        
+      })
+    },
     pluralize: function (count, word) {
         return count === 1 ? word : word + 's';
     },
@@ -90,29 +106,4 @@ var Utils = {
         var age = now.getFullYear() - dayOfBirth.getFullYear() - thisYear;
         return age;
     },
-    getGEOLocationByPromise: function(){
-        return new Promise(function(resolve, reject) {
-            if(Modernizr.geolocation){
-                navigator.geolocation.getCurrentPosition(
-                    function(position){
-                        resolve(position);
-                    },
-                    function(error){
-                        switch(error.code)
-                        {
-                            case error.PERMISSION_DENIED: console.log("User did not share geolocation data");break;
-                            case error.POSITION_UNAVAILABLE: console.log("Could not detect current position");break;
-                            case error.TIMEOUT: console.log("Retrieving position timed out");break;
-                            default: console.log("Unknown Error");break;
-                        }
-                        reject(error);
-                    },
-                    {timeout:10000,enableHighAccuracy:true}
-                )
-            }
-            else{
-                reject("HTML5 Geolocation not supported!");
-            }
-        });
-    }
 }

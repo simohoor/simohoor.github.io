@@ -1,0 +1,36 @@
+input {
+  width: 100%;
+}
+
+input, textarea {
+  background-color: $light-grey;
+  border: none;
+  padding: 7px;
+  border-radius: 5px;
+  transition: 0.3s;
+}
+
+label {
+	margin: 30px 0 10px 0;
+	display: block;
+  color: $blue;
+}
+
+textarea,
+input[type="text"] {
+	width: 100%;
+	padding: 10px;
+	display: block;
+	box-sizing: padding-box;
+}
+
+input[type="submit"] {
+	margin: 30px 0 0 0;
+	font-size: 20px;
+}
+
+textarea {
+	height: 250px;
+	border: 1px solid #ccc;
+	resize: none;
+}

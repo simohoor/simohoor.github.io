@@ -1,37 +1,29 @@
 ---
 layout  : default
 title   : "Log in"
-navigation_weight: 6
+navigation_weight: 7
 ---
 
 <div class="container">	
 	<h2 class="spacing front-title">Log In</h2>
-</div>
+
 <!-- Login -->
-    <div id="login" class="demo-card-square mdl-card mdl-shadow--2dp">
-      <div class="mdl-card__title mdl-card--expand">
-        <h2 class="mdl-card__title-text">Login</h2>
-      </div>
-      <div class="mdl-card__supporting-text">
         <form id="frm-login">
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" id="txtUserName" name="txtUserName">
             <label class="mdl-textfield__label" for="txtUserName">Username</label>
-          </div>
-          <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="password" id="txtPassWord" name="txtPassWord">
+            <input class="mdl-textfield__input" type="text" id="txtUserName" name="txtUserName">
+
             <label class="mdl-textfield__label" for="txtPassWord">Password</label>
-          </div>
-          <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-            Log in
-          </button>
+            <input class="mdl-textfield__input" type="password" id="txtPassWord" name="txtPassWord">
+
+            <button class="button-contact">
+              Log in
+            </button>
         </form>
-      </div>
-      <div class="mdl-card__actions mdl-card--border">
+      <div class="login-info">
         Need an account? Please <a href="#" title="Register for a new account!">Register</a>.<br>
         Forget your <a href="#" title="Forget your password?">password</a>?
       </div>
-    </div>	
+
 
 
 	<!-- Lecturer Tinder -->
@@ -66,3 +58,4 @@ navigation_weight: 6
 				<p>No lecturers present in the Lecturerama database!</p>
 			{{/if}}
 		</script>
+</div>

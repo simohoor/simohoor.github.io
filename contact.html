@@ -1,28 +1,19 @@
 ---
 layout  : default
 title : Contact
-navigation_weight: 5
+navigation_weight: 6
 ---
 <div class="container">
 	<h2 class="spacing front-title">Contact</h2>
-	<div id="form-messages"></div>
-	<form id="contactform" method="post" action="php/mailer.php">
-    <div class="field">
-    	<label for="name">Naam:</label>
-        <input type="text" id="name" name="name" required>
-    </div>
-
-    <div class="field">
-        <label for="email">E-mail:</label>
-    	<input type="email" id="email" name="email" required>
-    </div>
-
-    <div class="field">
-    	<label for="message">Bericht:</label>
-        <textarea id="message" name="message" required></textarea>
-    </div>
-
-     <div class="field">
-    	<button type="submit">Verzenden</button>
-    </div>
+    <!-- My own token (Simon) -->
+	<form action="https://getsimpleform.com/messages?form_api_token=42b353c6604b9ebadbb2741d657c713a" method="post">
+        <!-- the redirect_to is optional, the form will redirect to the referrer on submission -->
+        <input type='hidden' name='redirect_to' value='<http://fooey.com/thank-you.html>' />
+        <!-- all your input fields here.... -->
+        <label>E-mailadres</label>
+        <input type='email' required placeholder="example@gmail.com" />
+        <label>Bericht</label>
+        <textarea name="message" required placeholder="uw bericht.."></textarea>
+        <button class="button-contact" type='submit'>Verzenden</button>
+    </form>
 </div>

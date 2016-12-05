@@ -1,0 +1,33 @@
+aside p{
+  margin-top:-15px;
+}
+
+aside{
+  background-color: $blue;
+  padding: 20px;
+  float:right;
+  width:260px;
+  color:white;
+  position: absolute;
+  right:100px;
+  margin-top:30px;
+}
+
+// Media Querries
+@media (max-width: 1470px){
+  aside{
+    background-color: $blue;
+    padding: 10px;
+    width:100%;
+    position: static;
+    margin-bottom: 30px;
+  }
+
+  aside .sun {
+    display: none;
+  }
+
+  .now_temp{
+    margin-top:30px;
+  }
+}
