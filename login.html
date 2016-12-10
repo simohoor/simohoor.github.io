@@ -6,56 +6,16 @@ navigation_weight: 7
 
 <div class="container">	
 	<h2 class="spacing front-title">Log In</h2>
-
-<!-- Login -->
-        <form id="frm-login">
-            <label class="mdl-textfield__label" for="txtUserName">Username</label>
-            <input class="mdl-textfield__input" type="text" id="txtUserName" name="txtUserName">
-
-            <label class="mdl-textfield__label" for="txtPassWord">Password</label>
-            <input class="mdl-textfield__input" type="password" id="txtPassWord" name="txtPassWord">
-
-            <button class="button-contact">
-              Log in
-            </button>
-        </form>
-      <div class="login-info">
-        Need an account? Please <a href="#" title="Register for a new account!">Register</a>.<br>
-        Forget your <a href="#" title="Forget your password?">password</a>?
-      </div>
-
-
-
-	<!-- Lecturer Tinder -->
-    <div id="tinder" class="list-lecturers">
-      <div class="list-lecturers-left"></div>
-      <div class="list-lecturers-content"></div>
-      <div class="list-lecturers-right"></div>
-    <div>
-
-    <!-- Handlebars Templates -->
-    <script id="template-list-lecturers" type="text/x-handlebars-template">
-			{{#if this}}
-				{{#each this}}
-				<div class="lecturer" data-id="{{Id}}">
-					<div class="lecturer__meta">
-            <span class="lecturer__gender">{{ gender this.Gender}}</span>
-            <span class="lecturer__age">{{ age this.DayOfBirth}}</span>
-					</div>
-          <picture class="lecturer__picture">
-            <img src="{{Picture}}" />
-          </picture>
-          <h3 class="lecturer__name">
-            {{ fullName this}}
-          </h3>
-          <div class="lecturer__actions">
-            <span class="material-icons like" data-id="{{Id}}" data-tinderize="1">&#xE87D;</span>
-            <span class="material-icons dislike" data-id="{{Id}}" data-tinderize="2">&#xE043;</span>
-          </div>
-				</div>
-				{{/each}}
-			{{else}}
-				<p>No lecturers present in the Lecturerama database!</p>
-			{{/if}}
-		</script>
+  <form id="login-form" action=""> 
+    <label>Username</label>
+    <input id="userName" type="text" placeholder="Enter Username" value="" required/>
+    <label>Password</label>
+    <input id="userPw" type="password" placeholder="Enter Password" value="" required/>
+    
+    <button class="button-contact" id="login_btn" type="submit" onClick="check()">Log in</button>    
+  </form>
+  
+  <div class="login-info">
+    Need an account? Please <a href="/registreer.html" title="Register for a new account!">Register</a>.
+  </div>
 </div>

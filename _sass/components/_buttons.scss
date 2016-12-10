@@ -7,6 +7,21 @@
   margin-bottom: 25px;
   width: 140px;
 }
+.surprise{
+    display: block;
+    text-align: center;
+    width: 60%;
+    margin: auto;
+    margin-bottom: 50px;
+    transition: 0.3s;
+    height: 40px;
+}
+.surprise:hover{
+    background-color: $dark-blue;
+    transition: 0.3s;
+    color: white;
+    text-decoration: none;
+}
 
 @media (max-width: 640px){
     .button-contact {

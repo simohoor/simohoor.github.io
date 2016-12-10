@@ -52,6 +52,13 @@ var Utils = {
             }
         });
     },
+    login: function(){
+        document.querySelector("#navheadlogin li:nth-of-type(5)").innerHTML = "logout";
+		document.querySelector("#navsidelogin li:nth-of-type(5) a").innerHTML = "logout";
+
+		document.querySelector("#navheadlogin li:nth-of-type(6) a").style.display = 'none';
+		document.querySelector("#navsidelogin li:nth-of-type(6) a").style.display = 'none';
+    },
     getXMLByPromise: function(url) {   
       return new Promise(function(resolve, reject){
         var request = new XMLHttpRequest();
@@ -106,4 +113,12 @@ var Utils = {
         var age = now.getFullYear() - dayOfBirth.getFullYear() - thisYear;
         return age;
     },
+    surprise: function(randnumber){
+        var i = randnumber;
+        var element = document.getElementsByClassName("leaflet-marker-pane img");
+        element[i].click();
+        
+
+    }
+    
 }

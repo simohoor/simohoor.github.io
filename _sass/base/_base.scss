@@ -82,6 +82,10 @@ a.title {
   opacity: 1;
 }
 
+p#succes {
+  color: $blue;
+}
+
 .login-info {
   margin-bottom: 25px;
 }
@@ -125,6 +129,11 @@ a.title {
   height: 95%;
   margin: auto;
   display: block;
+}
+div#disqus_thread{
+	width: 95%;
+	margin: auto;
+	margin-bottom: 50px;
 }
 
 // Media Querries

@@ -8,12 +8,13 @@ navigation_weight: 6
     <!-- My own token (Simon) -->
 	<form action="https://getsimpleform.com/messages?form_api_token=42b353c6604b9ebadbb2741d657c713a" method="post">
         <!-- the redirect_to is optional, the form will redirect to the referrer on submission -->
-        <input type='hidden' name='redirect_to' value='<http://fooey.com/thank-you.html>' />
+        <input type='hidden' />
         <!-- all your input fields here.... -->
+        <p id="succes"></p>
         <label>E-mailadres</label>
         <input type='email' required placeholder="example@gmail.com" />
         <label>Bericht</label>
         <textarea name="message" required placeholder="uw bericht.."></textarea>
-        <button class="button-contact" type='submit'>Verzenden</button>
+        <button id="submit-button" class="button-contact" type='submit'>Verzenden</button>
     </form>
 </div>

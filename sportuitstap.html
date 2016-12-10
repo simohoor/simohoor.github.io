@@ -1,6 +1,7 @@
 ---
 layout  : default
 title   : "Sport & uitstap"
+comments: true
 navigation_weight: 2
 ---
 <div class="container">	
@@ -9,8 +10,21 @@ navigation_weight: 2
 		Versleep begin en/of eindpunt om de routebeschrijving aan te passen. <br>Om een tussenstop of omweg aan te duiden:  klik op de route en sleep de marker naar de gewenste plaats.
 	</p>
 </div>
-	<div class="map">
-		<div id="mapsportuitstap" class="mapcontainer">
-		</div>
-	</div>		
-		
+<div class="map">
+	<div id="mapsportuitstap" class="mapcontainer">
+	</div>
+</div>	
+
+<!-- Comments with Disqus -->
+{% if page.comments %}
+	<div id="disqus_thread"></div>
+	<script>
+		(function() { 
+		var d = document, s = d.createElement('script');
+		s.src = '//whattodo-1.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+		})();
+	</script>
+{% endif %}	
+<script id="dsq-count-scr" src="//whattodo-1.disqus.com/count.js" async></script>	
