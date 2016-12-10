@@ -37,6 +37,9 @@ function check() {
     if(userName.value == storedName && userPw.value == storedPw ) {
         alert('U bent ingelogd');
     } 
+	else {
+		alert('Wachtwoord of gebruikersnaam is foutief. Probeer het nog eens.');
+	}
 }
 ;(function() {
 	
