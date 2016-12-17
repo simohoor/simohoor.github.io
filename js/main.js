@@ -1,3 +1,4 @@
+
 // Navigation toggle
 function openNav() {
     document.getElementById("mySidenav").style.width = "250px";
@@ -10,42 +11,21 @@ function closeNav() {
 document.addEventListener("submit", function(){
     document.getElementById('succes').innerHTML = "Het bericht is verzonden!";
 });	
-// Name and Password from the register-form
-var naam = document.getElementById('naam');
-var pw = document.getElementById('pw');
 
-// Storing input from register-form
-function store() {
-
-    localStorage.setItem('naam', naam.value);
-    localStorage.setItem('pw', pw.value);	
-	alert("U ben geregistreerd " + localStorage.getItem('naam') + "!");
-}
-
-// Check if stored data from register-form is equal to entered data in the login-form
-function check() {
-
-    // Stored data from the register-form
-    var storedName = localStorage.getItem('naam');
-	var storedPw = localStorage.getItem('pw');
-
-    // Entered data from the login-form
-    var userName = document.getElementById('userName');
-    var userPw = document.getElementById('userPw');
-
-    // Check if stored data from register-form is equal to data from login form
-    if(userName.value == storedName && userPw.value == storedPw ) {
-        alert('U bent ingelogd');
-    } 
-	else {
-		alert('Wachtwoord of gebruikersnaam is foutief. Probeer het nog eens.');
-	}
-}
 ;(function() {
 	
 	function Wtdapp(){	
-		// Variables
-		var map;			
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCeRz-QODQei5cvFw5qVekfKkSNU4aI9RY",
+			authDomain: "whattodo-73cb8.firebaseapp.com",
+			databaseURL: "https://whattodo-73cb8.firebaseio.com",
+			storageBucket: "whattodo-73cb8.appspot.com",
+			messagingSenderId: "512218691725"
+		};
+		firebase.initializeApp(config);
+		
+		var map;
 		// URL of the Search API
 		this.API_URL_FILMVOORSTELLINGENXML = "https://datatank.stad.gent/4/cultuursportvrijetijd/historischefilmvoorstellingen.xml"
 		this.API_URL_BIOSCOPENXML = 'https://datatank.stad.gent/4/cultuursportvrijetijd/bioscopen.xml'
@@ -55,6 +35,20 @@ function check() {
 		
 		// Initialize App
 		this.init = function() {
+
+			// Load Register
+			var registerForm = document.getElementById('register-form');
+			if (typeof(registerForm) != 'undefined' && registerForm != null)
+			{
+				this.CreateRegister();
+			}	
+
+			// Load Login
+			var loginForm = document.getElementById('login-form');
+			if (typeof(loginForm) != 'undefined' && loginForm != null)
+			{
+				this.CreateLogin();
+			}
 
 			// Load Film map
 			var film =  document.getElementById('mapfilm');
@@ -77,8 +71,13 @@ function check() {
 				this.CreateLiterature();
 			}
 			// Weather
-			this.CreateWeatherWidget();
-
+			var weatherWidget =  document.getElementById('weatherWidget');
+			if (typeof(weatherWidget) != 'undefined' && weatherWidget != null)
+			{
+				Utils.Weather(51.0535, 3.7304);
+			}
+			
+			
 			// Load surprise
 			var surprise = document.getElementById('mapsurprise');
 			if (typeof(surprise) != 'undefined' && surprise != null)
@@ -86,11 +85,57 @@ function check() {
 				this.CreateSurprise();
 			}		
     	};
+		this.CreateLogin = function () {	
 
-		this.CreateWeatherWidget = function() {
-            var weatherWidget1 = new WeatherWidget(0, document.querySelector('.weather-widget'));
-            weatherWidget1.loadData();
-        },
+			// Variables
+			var txtEmail = document.getElementById('txtEmail');
+			var txtPassword = document.getElementById('txtPassword');
+			var btnLogin = document.getElementById('btnLogin');
+			var btnSignUp = document.getElementById('btnSignUp');
+			var btnLogout = document.getElementById('btnLogout');	
+
+			// Add login event
+			btnLogin.addEventListener('click', e => {
+				// Get email and pass
+				var email = txtEmail.value;
+				var pass = txtPassword.value;
+				var auth = firebase.auth();
+				// Sign in
+				var promise = auth.signInWithEmailAndPassword(email,pass);
+				//promise.catch(e => console.log(e.message));
+				promise.catch(e => document.getElementById('melding').innerHTML = e.message);
+			});
+
+			btnLogout.addEventListener('click', e => {
+				firebase.auth().signOut();
+				document.getElementById('melding').innerHTML = "U bent uitgelogd";
+			});
+			// Add a realtime listener
+			firebase.auth().onAuthStateChanged(firebaseUser => {
+				if(firebaseUser) {
+					console.log(firebaseUser);
+					btnLogout.classList.remove('hide');
+					document.getElementById('melding').innerHTML = "U bent succesvol ingelogd!";
+				} else {
+					console.log('not logged in');
+					btnLogout.classList.add('hide');
+				}
+			});
+		},
+		this.CreateRegister = function () {	
+			// Add signup event
+			btnSignUp.addEventListener('click', e => {
+				// Get email and pass
+				var email = txtEmail.value;
+				var pass = txtPassword.value;
+				var auth = firebase.auth();
+				// Sign in
+				var promise = auth.createUserWithEmailAndPassword(email,pass);
+				//promise.catch(e => console.log(e.message));
+				promise.catch(e => document.getElementById('melding').innerHTML = e.message);
+				
+			});
+		},
 		this.CreateSportUitstap = function () {	
 			var _urlxml = this.API_URL_SPORTCENTRAXML;
 
@@ -112,50 +157,48 @@ function check() {
 				}).addTo(map)
 			});		
 			// Inladen xmldata
-				Utils.getXMLByPromise(_urlxml).then(
-					function(data){
-						
-						// Icon
-						var myIcon = L.icon({
-							iconUrl: '/images/icons/green.png',
-							iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [27, 41],
+			Utils.getXMLByPromise(_urlxml).then(
+				function(data){
+					// Icon
+					var myIcon = L.icon({
+						iconUrl: '/images/icons/green.png',
+						iconRetinaUrl: 'my-icon@2x.png',
+						iconSize: [27, 41],	
+					});		
+					var allcoords = data.querySelectorAll('coordinates');			
+					for(i=0; i < allcoords.length; i++){
+						_xmldata = data.getElementsByTagName('coordinates')[i];
+						// Global
+						var temp = allcoords[i].parentElement.parentElement;
+						var temp1 = temp.querySelectorAll('SimpleData');
+						// Name					
+						var nametemp2 = temp1[1].textContent;
 							
-						});		
-						var allcoords = data.querySelectorAll('coordinates');			
-						for(i=0; i < allcoords.length; i++){
-							_xmldata = data.getElementsByTagName('coordinates')[i];
-							// Global
-							var temp = allcoords[i].parentElement.parentElement;
-							var temp1 = temp.querySelectorAll('SimpleData');
-							// Name					
-							var nametemp2 = temp1[1].textContent;
-							
-							// Location
-							var wholeString = _xmldata.childNodes[0];
-							var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
-							var indexcomma = longandlat.indexOf(",");
-							var long = longandlat.substring(0, indexcomma);
-							var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
-							// Street						
-							var streettemp2 = temp1[2].textContent;	
-							// Housenr	
-							var housenrtemp2 = temp1[3].textContent;	
-							// Postalcode	
-							var postalcodetemp2 = temp1[4].textContent;	
-							// City
-							var citytemp2 = temp1[5].textContent;
-							var typetemp2 = temp1[6].textContent;
-							var tempstring = "";
-								tempstring += '<h3>' + nametemp2 + '</h3>';	
-								tempstring += '<p>' + streettemp2 + ' ' + housenrtemp2 + '<br>';
-								tempstring += postalcodetemp2+ ' ' + citytemp2 +  '<br>';
-								tempstring += typetemp2 + '</p>';
-								tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
+						// Location
+						var wholeString = _xmldata.childNodes[0];
+						var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
+						var indexcomma = longandlat.indexOf(",");
+						var long = longandlat.substring(0, indexcomma);
+						var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
+						// Street						
+						var streettemp2 = temp1[2].textContent;	
+						// Housenr	
+						var housenrtemp2 = temp1[3].textContent;	
+						// Postalcode	
+						var postalcodetemp2 = temp1[4].textContent;	
+						// City
+						var citytemp2 = temp1[5].textContent;
+						var typetemp2 = temp1[6].textContent;
+						var tempstring = "";
+							tempstring += '<h3>' + nametemp2 + '</h3>';	
+							tempstring += '<p>' + streettemp2 + ' ' + housenrtemp2 + '<br>';
+							tempstring += postalcodetemp2+ ' ' + citytemp2 +  '<br>';
+							tempstring += typetemp2 + '</p>';
+							tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
 								
-								// Markers 
-								L.marker([lat, long], {icon: myIcon}).addTo(map)
-								.bindPopup(tempstring)    
+							// Markers 
+							L.marker([lat, long], {icon: myIcon}).addTo(map)
+							.bindPopup(tempstring)    
 						}
 						 						
 					},		
@@ -163,9 +206,7 @@ function check() {
 					function(status){
 						console.log(status);
 					}	
-					
-				);
-					
+				);	
     	},
 		this.CreateFilm = function () {
 			var _url = this.API_URL_BIOSCOPEN;
@@ -192,105 +233,99 @@ function check() {
 				}).addTo(map)
 			});	
 			// Inladen data voorstellingen
-				Utils.getXMLByPromise(_urlFilmxml).then(
-					function(data){
-						var allcoords = data.querySelectorAll('coordinates');
-						// Icon
-						var myIcon = L.icon({
-							iconUrl: '/images/icons/green.png',
-							iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [27, 41],
-							
-						});								
-						for(i=0; i < allcoords.length; i++){
-							_xmldata = data.getElementsByTagName('coordinates')[i];
-							// Global
-							var temp = allcoords[i].parentElement.parentElement;
-							var temp1 = temp.querySelectorAll('SimpleData');
-							// Name					
-							var nametemp2 = temp1[1].textContent;
-							
-							// Location
-							var wholeString = _xmldata.childNodes[0];
-							var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
-							var indexcomma = longandlat.indexOf(",");
-							var long = longandlat.substring(0, indexcomma);
-							var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
-							// Street						
-							var streettemp2 = temp1[3].textContent;	
-							// Housenr	
-							var housenrtemp2 = temp1[4].textContent;	
-							// Postalcode	
-							var postalcodetemp2 = temp1[5].textContent;	
-							// City
-							var citytemp2 = temp1[6].textContent;
-							// Jaargang
-							var typetemp2 = temp1[7].textContent;
-							var tempstring = "";
-								tempstring += '<h3>' + nametemp2 + '</h3>';	
-								tempstring += '<p>' + streettemp2 + ' ' + housenrtemp2 + '<br>';
-								tempstring += postalcodetemp2+ ' ' + citytemp2 + '<br>';
-								tempstring += "Jaargang : " + typetemp2 + '<br>';
-								tempstring += "Categorie : historische filmvoorstelling</p>";
-								tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
-														
-								// Markers 
-								L.marker([lat, long], {icon: myIcon}).addTo(map)
-								.bindPopup(tempstring)    
-						}
+			Utils.getXMLByPromise(_urlFilmxml).then(
+				function(data){
+					var allcoords = data.querySelectorAll('coordinates');
+					// Icon
+					var myIcon = L.icon({
+						iconUrl: '/images/icons/green.png',
+						iconRetinaUrl: 'my-icon@2x.png',
+						iconSize: [27, 41],		
+					});								
+					for(i=0; i < allcoords.length; i++){
+						_xmldata = data.getElementsByTagName('coordinates')[i];
+						// Global
+						var temp = allcoords[i].parentElement.parentElement;
+						var temp1 = temp.querySelectorAll('SimpleData');
+						// Name					
+						var nametemp2 = temp1[1].textContent;
 						
-					},		
-					function(status){
-						console.log(status);
+						// Location
+						var wholeString = _xmldata.childNodes[0];
+						var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
+						var indexcomma = longandlat.indexOf(",");
+						var long = longandlat.substring(0, indexcomma);
+						var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
+						// Street						
+						var streettemp2 = temp1[3].textContent;	
+						// Housenr	
+						var housenrtemp2 = temp1[4].textContent;	
+						// Postalcode	
+						var postalcodetemp2 = temp1[5].textContent;	
+						// City
+						var citytemp2 = temp1[6].textContent;
+						// Jaargang
+						var typetemp2 = temp1[7].textContent;
+						var tempstring = "";
+							tempstring += '<h3>' + nametemp2 + '</h3>';	
+							tempstring += '<p>' + streettemp2 + ' ' + housenrtemp2 + '<br>';
+							tempstring += postalcodetemp2+ ' ' + citytemp2 + '<br>';
+							tempstring += "Jaargang : " + typetemp2 + '<br>';
+							tempstring += "Categorie : historische filmvoorstelling</p>";
+							tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
+													
+						// Markers 
+						L.marker([lat, long], {icon: myIcon}).addTo(map)
+							.bindPopup(tempstring)    
 					}	
-					
-				);
+				},		
+				function(status){
+					console.log(status);
+				}			
+			);
 			// Inladen data bioscopen
 			Utils.getXMLByPromise(_urlxml).then(
 				
-					function(data){
-						var allcoords = data.querySelectorAll('coordinates');	
-						// Icon
-						var myIcon = L.icon({
-							iconUrl: '/images/icons/red.png',
-							iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [27, 41],
-							
-						});			
-						for(i=0; i < allcoords.length; i++){
-							_xmldata = data.getElementsByTagName('coordinates')[i];
-							// Global
-							var temp = allcoords[i].parentElement.parentElement;
-							var temp1 = temp.querySelectorAll('SimpleData');
-							// Name					
-							var nametemp2 = temp1[2].textContent;
-							
-							// Location
-							var wholeString = _xmldata.childNodes[0];
-							var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
-							var indexcomma = longandlat.indexOf(",");
-							var long = longandlat.substring(0, indexcomma);
-							var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
-							// Street						
-							var streettemp2 = temp1[3].textContent;	
-							
-							var tempstring = "";
-								tempstring += '<h3>' + nametemp2 + '</h3>';	
-								tempstring += '<p>' + streettemp2 + '<br>';
-								tempstring += "Categorie : bioscoop </p>";
-								tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';														
-								// Markers 
-								L.marker([lat, long], {icon: myIcon}).addTo(map)
-								.bindPopup(tempstring)    
-						}
+				function(data){
+					var allcoords = data.querySelectorAll('coordinates');	
+					// Icon
+					var myIcon = L.icon({
+						iconUrl: '/images/icons/red.png',
+						iconRetinaUrl: 'my-icon@2x.png',
+						iconSize: [27, 41],	
+					});			
+					for(i=0; i < allcoords.length; i++){
+						_xmldata = data.getElementsByTagName('coordinates')[i];
+						// Global
+						var temp = allcoords[i].parentElement.parentElement;
+						var temp1 = temp.querySelectorAll('SimpleData');
+						// Name					
+						var nametemp2 = temp1[2].textContent;
 						
-					},		
-					function(status){
-						console.log(status);
-					}	
-					
-				);	
-    	
+						// Location
+						var wholeString = _xmldata.childNodes[0];
+						var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
+						var indexcomma = longandlat.indexOf(",");
+						var long = longandlat.substring(0, indexcomma);
+						var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
+						// Street						
+						var streettemp2 = temp1[3].textContent;	
+						
+						var tempstring = "";
+							tempstring += '<h3>' + nametemp2 + '</h3>';	
+							tempstring += '<p>' + streettemp2 + '<br>';
+							tempstring += "Categorie : bioscoop </p>";
+							tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
+
+						// Markers 
+						L.marker([lat, long], {icon: myIcon}).addTo(map)
+							.bindPopup(tempstring)    
+					}
+				},		
+				function(status){
+					console.log(status);
+				}		
+			);	
 		},
 		this.CreateLiterature = function () {
 			var _url = this.API_URL_BIBLIOTHEKENXML;
@@ -314,66 +349,61 @@ function check() {
 			});
 	
 			// Inladen data 
-				Utils.getXMLByPromise(_url).then(
-					function(data){
-						var allcoords = data.querySelectorAll('coordinates');	
-						// Icon
-						var myIcon = L.icon({
-							iconUrl: '/images/icons/green.png',
-							iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [27, 41],
+			Utils.getXMLByPromise(_url).then(
+				function(data){
+					var allcoords = data.querySelectorAll('coordinates');	
+					// Icon
+					var myIcon = L.icon({
+						iconUrl: '/images/icons/green.png',
+						iconRetinaUrl: 'my-icon@2x.png',
+						iconSize: [27, 41],	
+					});		
+					for(i=0; i < allcoords.length; i++){
+						_xmldata = data.getElementsByTagName('coordinates')[i];
+						// Global
+						var temp = allcoords[i].parentElement.parentElement;
+						var temp1 = temp.querySelectorAll('SimpleData');
+						// Name					
+						var nametemp2 = temp1[1].textContent;
 							
-						});		
-						for(i=0; i < allcoords.length; i++){
-							_xmldata = data.getElementsByTagName('coordinates')[i];
-							// Global
-							var temp = allcoords[i].parentElement.parentElement;
-							var temp1 = temp.querySelectorAll('SimpleData');
-							// Name					
-							var nametemp2 = temp1[1].textContent;
-							
-							// Location
-							var wholeString = _xmldata.childNodes[0];
-							var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
-							var indexcomma = longandlat.indexOf(",");
-							var long = longandlat.substring(0, indexcomma);
-							var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
+						// Location
+						var wholeString = _xmldata.childNodes[0];
+						var longandlat = wholeString.nodeValue.substring(0,wholeString.nodeValue.length-3);	
+						var indexcomma = longandlat.indexOf(",");
+						var long = longandlat.substring(0, indexcomma);
+						var lat	= longandlat.substring(indexcomma + 1, longandlat.length);	
 
-							var tempstring = "";
+						var tempstring = "";
 							tempstring += '<h3>' + nametemp2 + '</h3>';
 							tempstring += "Categorie : bibliotheek </p>";
 							tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';	
 																	
-							// Markers 
-							L.marker([lat, long], {icon: myIcon}).addTo(map)
+						// Markers 
+						L.marker([lat, long], {icon: myIcon}).addTo(map)
 							.bindPopup(tempstring)    
-						}
-						
-					},		
-					function(status){
-						console.log(status);
-					}
-				);
-
-				Utils.getJSONByPromise(_urlmusea).then(
-					
-					function(data) {
-						// Icon
-						var myIcon = L.icon({
-							iconUrl: '/images/icons/red.png',
-							iconRetinaUrl: 'my-icon@2x.png',
-							iconSize: [27, 41],
-							
-						});							
-						_dataMusea = data;					
-						var i = 0;		
-						var templat;
-						var templong;		
-						while (i <= _dataMusea.length ){
-							templat = _dataMusea[i].latitude
-							templong = _dataMusea[i].longitude
-							// Stringbuilder
-							var tempstring = "";
+					}	
+				},		
+				function(status){
+					console.log(status);
+				}
+			);
+			Utils.getJSONByPromise(_urlmusea).then(	
+				function(data) {
+					// Icon
+					var myIcon = L.icon({
+						iconUrl: '/images/icons/red.png',
+						iconRetinaUrl: 'my-icon@2x.png',
+						iconSize: [27, 41],		
+					});							
+					_dataMusea = data;					
+					var i = 0;		
+					var templat;
+					var templong;		
+					while (i <= _dataMusea.length ){
+						templat = _dataMusea[i].latitude
+						templong = _dataMusea[i].longitude
+						// Stringbuilder
+						var tempstring = "";
 							tempstring += '<h3>' + _dataMusea[i].Naam + '</h3>';
 							tempstring += '<p>' + _dataMusea[i].Straat + ' ' + _dataMusea[i].huisnr + '<br>';
 							tempstring += _dataMusea[i].Postcode + ' ' + _dataMusea[i].Gemeente +  '<br>';
@@ -381,24 +411,24 @@ function check() {
 							tempstring += "Categorie : museum</p>";
 							tempstring += '<iframe src="https://www.facebook.com/plugins/share_button.php?href=https%3A%2F%2Fsimohoor.github.io%2F&layout=button&size=large&mobile_iframe=true&width=71&height=28&appId" width="71" height="28" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>';
 
-							// Markers 
-							L.marker([templat, templong], {icon: myIcon}).addTo(map)
+						// Markers 
+						L.marker([templat, templong], {icon: myIcon}).addTo(map)
 							.bindPopup(tempstring)    
-							i++
-						}
-						console.log("musea");
-					    UpdateMusea();
-					},
-					function(status) {
-						console.log(status);
+						i++
 					}
-				);		
-				function UpdateMusea(){
-					L.geoJson(_dataMusea).addTo(map);
-				};
-				function UpdateBibliotheek(){
-					L.geoJson(_data).addTo(map);
-				}		
+					console.log("musea");
+					UpdateMusea();
+				},
+				function(status) {
+					console.log(status);
+				}
+			);		
+			function UpdateMusea(){
+				L.geoJson(_dataMusea).addTo(map);
+			};
+			function UpdateBibliotheek(){
+				L.geoJson(_data).addTo(map);
+			}		
     	};	
 		this.CreateSurprise = function(){			
 			var myArray = ['mapfilm', 'mapsportuitstap', 'mapliteratuur'];    
@@ -406,7 +436,7 @@ function check() {
 			var surpr = document.getElementById("mapsurprise");
 			if(typeof(surpr) != 'undefined' && surpr != null){
 				surpr.id = rand;
-			}else{
+			} else{
 				surpr = document.getElementsByClassName("mapcontainer").id = rand;
 			}
 			switch(rand) {
@@ -421,7 +451,7 @@ function check() {
 					break;			
 			}
 			var amountofmarkers = $('.leaflet-marker-pane img').length;
-		
+			console.log(amountofmarkers);
 			var randommarker = Math.floor(Math.random() * amountofmarkers) + 1;
 			Utils.surprise(randommarker);
 		}	

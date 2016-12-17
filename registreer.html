@@ -6,11 +6,12 @@ navigation_weight: 8
 
 <div class="container">	
 	<h2 class="spacing front-title">Registreer</h2>
-  <form id="register-form"> 
-    <label>Kies een username</label>
-    <input id="naam" type="text" placeholder="username" value="" required/>
-    <label>Kies een wachtwoord</label>
-    <input id="pw" type="password" placeholder="password" value="" required/>    
-    <button class="button-contact" id="rgstr_btn" type="submit" value="Maak Account" onClick="store()">Registreer</button> 
-  </form>
+  <div id="register-form">
+    <p id="melding"></p>
+    <label>Email</label>
+    <input id="txtEmail" type="email" placeholder="Email" required/>
+    <label>Password</label>
+    <input id="txtPassword" type="password" placeholder="password" required/>    
+    <button class="button-contact" id="btnSignUp">Registreer</button> 
+  </div>
 </div>

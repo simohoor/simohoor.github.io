@@ -16,12 +16,6 @@
     transition: 0.3s;
     height: 40px;
 }
-.surprise:hover{
-    background-color: $dark-blue;
-    transition: 0.3s;
-    color: white;
-    text-decoration: none;
-}
 
 @media (max-width: 640px){
     .button-contact {
