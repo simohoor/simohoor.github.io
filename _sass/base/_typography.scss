@@ -100,6 +100,9 @@ textarea {
     text-decoration: none;
     font-size: 25px;
 }
+#list {
+  font-size: 15px;
+}
 
 
 // Footer
@@ -144,6 +147,9 @@ footer .txtBlock {
 @media (max-width: 660px){  
   .linksFooter {
     font-size: 10px;
+  }
+  .about {
+    font-size: 15px;
   }
 }
 

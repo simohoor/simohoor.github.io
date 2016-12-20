@@ -1,0 +1,9 @@
+#list {
+    list-style-type: none;
+}
+#list li {
+    margin: 20px;
+    padding: 10px;
+    background-color: $light-grey;
+    color:$dark-grey;
+}
